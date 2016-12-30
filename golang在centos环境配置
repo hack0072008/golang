@@ -1,0 +1,35 @@
+golang安装：
+注：golang在centos下有两种安装方式：yum安装和源码安装
+一 yum安装：
+   yum install golang
+   (root用户)
+二 源码安装
+   cd /opt/golang
+   wget https://storage.googleapis.com/golang/go1.4.1.linux-amd64.tar.gz
+   tar -xzf go1.4.1.linux-xxx.tar.gz -C /usr/local
+
+golang配置：
+vi /etc/profile
+export GOPATH=/usr/local/go
+export GOROOT=/opt/sengled/mygo/
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+
+type go
+go -h
+------------------------------------------------------------------------------------------------
+beego安装：
+cd $GOROOT/beego
+go get github.com/astaxie/beego
+go get github.com/beego/bee
+
+
+cd $GOROOT/src
+bee new hello
+cd hello
+bee run hello
+curl -s http://localhost:8080/
+
+
+
+
+
