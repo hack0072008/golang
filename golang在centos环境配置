@@ -1,35 +1,57 @@
-golang安装：
-注：golang在centos下有两种安装方式：yum安装和源码安装
-一 yum安装：
-   yum install golang
-   (root用户)
-二 源码安装
-   cd /opt/golang
-   wget https://storage.googleapis.com/golang/go1.4.1.linux-amd64.tar.gz
-   tar -xzf go1.4.1.linux-xxx.tar.gz -C /usr/local
+--------卸载Go
+参考（https://golang.org/doc/install?download=go1.4.3.linux-amd64.tar.gz#uninstall）
+      http://stackoverflow.com/questions/20458796/unrecognized-import-path-with-go-get
 
-golang配置：
-vi /etc/profile
-export GOPATH=/usr/local/go
-export GOROOT=/opt/sengled/mygo/
-export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+Linux, Mac OS X, and FreeBSD:
+A>删除目录 /usr/local/go
+B>在/etc/profile or $HOME/.profile 中去掉环境变量和path（MAC 则需要删除/etc/paths.d/go）
 
-type go
-go -h
-------------------------------------------------------------------------------------------------
-beego安装：
-cd $GOROOT/beego
-go get github.com/astaxie/beego
-go get github.com/beego/bee
+Windows:
+A>删除 c:\Go
+B>去掉系统环境变量
+
+--------安装go
+A>下载 http://docscn.studygolang.com/dl/
+B>mkdir -p /usr/local/go_1.4.3 /usr/local/go_1.7.4 && rz go1.4.3.linux-amd64.tar.gz &&  tar -C /usr/local/go_1.4.3 -xzf go1.4.3.linux-amd64.tar.gz && tar -C /usr/local/go_1.7.4 -xzf go1.7.4.linux-amd64.tar.gz
+  rm -rf /usr/local/go && ln -s /usr/local/go_1.7.4 /usr/local/go
+C>vim /etc/profile
+export GO_HOME=/opt/sengled/mygo
+export PATH=$PATH:$GO_HOME/bin
+
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
+
+export GOPATH=$GO_HOME
+export PATH=$PATH:$GOPATH/bin
+
+export GOROOT_BOOTSTRAP=/usr/local/go               #GOROOT_BOOTSTRAP必须指定到go1.4.x版本，否则编译失败
+export PATH=$PATH:$GOROOT_BOOTSTRAP/bin
+D>source /etc/profile && cd $GOROOT_BOOTSTRAP/src && ./all.bash
+E>mkdir -p $GO_HOME/src/ && cd $GO_HOME/src/ && cat > hello.go <<EOF
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Printf("hello, world\n")
+}
+EOF
+go run hello.go
+hello, world
 
 
-cd $GOROOT/src
-bee new hello
-cd hello
-bee run hello
-curl -s http://localhost:8080/
 
-
+-----------安装beego
+A>需要有git和golang环境
+mkdir -p $GOPATH && cd $GOPATH
+$ go get github.com/astaxie/beego
+$ go get github.com/beego/bee
+B>需要有$GOPATH/bin     #一般为GO_HOME/bin;默认端口为8080，可以在hello/conf/app.conf 的httpport = 8080 调整
+C>cd $GOPATH/src
+  bee new hello
+  cd hello
+  bee run hello
+D>curl http://localhost:8000/ 
 
 
 
